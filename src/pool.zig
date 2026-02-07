@@ -108,12 +108,26 @@ pub fn Pool(
             @"Pool._curr_cycle": AddressableCycle,
         });
 
-        const Storage = MultiArrayList(@Type(.{ .@"struct" = .{
-            .layout = .auto,
-            .fields = private_fields ++ column_fields,
-            .decls = &.{},
-            .is_tuple = false,
-        } }));
+        const Storage = MultiArrayList(StorageType: {
+            const fields = private_fields ++ column_fields;
+            break :StorageType @Struct(.auto, null, names: {
+                var names: [fields.len][:0]const u8 = undefined;
+                for (fields, 0..) |f, i| names[i] = f.name;
+                break :names &names;
+            }, types: {
+                var types: [fields.len]type = undefined;
+                for (fields, 0..) |f, i| types[i] = f.type;
+                break :types &types;
+            }, attrs: {
+                var attrs: [fields.len]std.builtin.Type.StructField.Attributes = undefined;
+                for (fields, 0..) |f, i| attrs[i] = .{
+                    .@"comptime" = f.is_comptime,
+                    .@"align" = f.alignment,
+                    .default_value_ptr = f.default_value_ptr,
+                };
+                break :attrs &attrs;
+            });
+        });
 
         const FreeQueue = RingQueue(AddressableIndex);
 

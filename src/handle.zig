@@ -142,10 +142,10 @@ pub fn Handle(
             }
         };
 
-        pub fn format(self: Self, writer: *std.io.Writer) std.io.Writer.Error!void {
+        pub fn format(self: Self, writer: *std.Io.Writer) std.Io.Writer.Error!void {
             const n = @typeName(Resource);
             const a = self.addressable();
-            return writer.print("{s}[{}#{}]", .{ n, a.index, a.cycle });
+            try writer.print("{s}[{}#{}]", .{ n, a.index, a.cycle });
         }
     };
 }

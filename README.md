@@ -1,5 +1,8 @@
 # [zpool](https://github.com/zig-gamedev/zpool)
 
+> [!NOTE]
+> Compiled with Zig version `0.16.0-dev.2510+bcb5218a2`. This fork will only be kept up to date with master irregularly.
+
 Generic pool & handle implementation for Zig. Based on [Andre Weissflog's "Handles Are The Better Pointers"](https://floooh.github.io/2018/06/17/handles-vs-pointers.html).
 
 Exposing API resources using pools and handles is a common way to avoid exposing
