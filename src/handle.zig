@@ -75,7 +75,7 @@ pub fn Handle(
         const CycleType = UInt(cycle_bits);
         const HandleUnion = extern union {
             id: Id,
-            bits: packed struct {
+            bits: packed struct(Id) {
                 cycle: CycleType, // least significant bits
                 index: IndexType, // most significant bits
             },
@@ -142,7 +142,7 @@ pub fn Handle(
             }
         };
 
-        pub fn format(self: Self, writer: *std.io.Writer) std.io.Writer.Error!void {
+        pub fn format(self: Self, writer: *std.Io.Writer) std.Io.Writer.Error!void {
             const n = @typeName(Resource);
             const a = self.addressable();
             return writer.print("{s}[{}#{}]", .{ n, a.index, a.cycle });
